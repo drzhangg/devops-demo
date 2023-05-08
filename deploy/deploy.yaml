@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: $PROJECT_NAME
+  name: devops-go-demo
+  labels:
+    app: devops-go-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: devops-go-demo
+  template:
+    metadata:
+      labels:
+        app: devops-go-demo
+    spec:
+      containers:
+        - name: go
+          image: $REGISTRY/$DOCKERHUB_USERNAME/$APP_NAME
+          ports:
+            - containerPort: 8181
+              name: http
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: devops-go-demo
+  name: devops-go-demo
+  namespace: $PROJECT_NAME
+spec:
+  ports:
+    - port: 8182
+      protocol: TCP
+      targetPort: http
+  selector:
+    app: devops-go-demo
+  type: NodePort

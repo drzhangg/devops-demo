@@ -1,37 +1,74 @@
 pipeline {
-    agent any
 
-    stages {
-        stage('Checkout') {
-            steps {
-                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/drzhangg/devops-demo.git']]])
-            }
-        }
+  agent {
+    label 'go'
+  }
 
-        stage('Build') {
-            steps {
-                sh 'go build -o myapp'
-            }
-        }
+  environment {
 
-        stage('Deploy') {
-            steps {
-                sshagent(['my-ssh-key']) {
-                    sh 'ssh root@172.31.73.66 "mkdir -p /path/to/deploy"'
-                    sh 'scp myapp root@172.31.73.66:/path/to/deploy/myapp'
-                    sh 'ssh root@172.31.73.66 "systemctl restart myapp.service"'
-                }
-            }
+    // 您 Docker Hub 仓库的地址
+    REGISTRY = 'docker.io'
+
+    // 您的 Docker Hub 用户名
+    DOCKERHUB_USERNAME = 'drzhangg'
+
+    // Docker 镜像名称
+    APP_NAME = 'devops-go-demo'
+
+    // 'dockerhubid' 是您在 KubeSphere 用 Docker Hub 访问令牌创建的凭证 ID
+    DOCKERHUB_CREDENTIAL = credentials('dockerhub')
+
+    // 您在 KubeSphere 创建的 kubeconfig 凭证 ID
+    KUBECONFIG_CREDENTIAL_ID = 'k8s'
+
+    // 您在 KubeSphere 创建的项目名称，不是 DevOps 项目名称
+    PROJECT_NAME = 'test-project'
+
+  }
+
+
+  stages {
+
+    stage('docker login') {
+      steps{
+        container ('go') {
+          sh 'echo $DOCKERHUB_CREDENTIAL_PSW | docker login -u $DOCKERHUB_CREDENTIAL_USR --password-stdin'
         }
+      }
     }
 
-    post {
-        success {
-            slackSend message: "Build and deploy of myapp succeeded!", channel: '#myapp-builds'
-        }
+    stage('build & push') {
+      steps {
+        container ('go') {
 
-        failure {
-            slackSend message: "Build or deploy of myapp failed!", channel: '#myapp-builds'
+          sh 'git clone https://github.com/yuswift/devops-go-sample.git'
+
+          // sh 'cd devops-go-sample && docker build -t $REGISTRY/$DOCKERHUB_USERNAME/$APP_NAME .'
+          sh 'cd devops-go-sample && docker build -t $DOCKERHUB_USERNAME/$APP_NAME .'
+
+          // sh 'docker push $REGISTRY/$DOCKERHUB_USERNAME/$APP_NAME'
+          sh 'docker push $DOCKERHUB_USERNAME/$APP_NAME'
+
         }
+      }
     }
+
+    stage ('deploy app') {
+      steps {
+         container ('go') {
+            withCredentials([
+              kubeconfigFile(
+
+                credentialsId: env.KUBECONFIG_CREDENTIAL_ID,
+
+                variable: 'KUBECONFIG')
+
+              ]) {
+
+              sh 'envsubst < devops-demo/deploy/deploy.yaml | kubectl apply -f -'
+            }
+         }
+      }
+    }
+  }
 }
