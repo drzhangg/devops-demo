@@ -3,12 +3,17 @@ FROM golang:1.17 as builder
 
 WORKDIR /devops
 
+ENV GO111MODULE=on \
+	GOPROXY=https://goproxy.cn,direct
+
 COPY go.mod go.mod
 
 RUN go mod download
 
+COPY . .
+
 # Build
-RUN CGO_ENABLED=0 GOOS=linux GO111MODULE=on go build -a -o devops-demo main.go
+RUN CGO_ENABLED=0 GOOS=linux  go build -a -o devops-demo main.go
 
 # Use distroless as minimal base image to package the manager binary
 # Refer to https://github.com/GoogleContainerTools/distroless for more details
