@@ -41,10 +41,10 @@ pipeline {
       steps {
         container ('go') {
 
-          sh 'git clone https://github.com/yuswift/devops-go-sample.git'
+          sh 'git clone https://github.com/drzhangg/devops-demo.git'
 
-          // sh 'cd devops-go-sample && docker build -t $REGISTRY/$DOCKERHUB_USERNAME/$APP_NAME .'
-          sh 'cd devops-go-sample && docker build -t $DOCKERHUB_USERNAME/$APP_NAME .'
+          // sh 'cd devops-demo && docker build -t $REGISTRY/$DOCKERHUB_USERNAME/$APP_NAME .'
+          sh 'cd devops-demo && docker build -t $DOCKERHUB_USERNAME/$APP_NAME .'
 
           // sh 'docker push $REGISTRY/$DOCKERHUB_USERNAME/$APP_NAME'
           sh 'docker push $DOCKERHUB_USERNAME/$APP_NAME'
