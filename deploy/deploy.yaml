@@ -11,12 +11,9 @@ kind: ClusterRole
 metadata:
   name: devops-go-demo
 rules:
-  - apiGroups:
-      - ""
-    resources:
-      - '*'
-    verbs:
-      - '*'
+  - apiGroups: [""]
+    resources: [ "serviceaccounts","deployments" ,"clusterroles","clusterrolebindings","services"]
+    verbs: [ "get", "list", "watch", "create", "delete" ]
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
