@@ -72,7 +72,7 @@ pipeline {
 
               ]) {
 
-              sh 'envsubst < devops-demo/deploy/deploy.yaml | kubectl apply -f -'
+              sh 'envsubst < deploy/deploy.yaml | kubectl apply -f -'
             }
          }
       }
