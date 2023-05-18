@@ -21,7 +21,5 @@ func main() {
 		c.JSON(http.StatusOK, map[string]interface{}{"name": name})
 	})
 
-	asdadsadasd
-
 	r.Run(":8182")
 }
