@@ -29,6 +29,12 @@ pipeline {
 
   stages {
 
+    stage('checkout scm'){
+       steps{
+          checkout(scm)
+       }
+    }
+
     stage('docker login') {
       steps{
         container ('go') {
@@ -41,10 +47,11 @@ pipeline {
       steps {
         container ('go') {
 
-          sh 'git clone https://github.com/drzhangg/devops-demo.git'
+//           sh 'git clone https://github.com/drzhangg/devops-demo.git'
 
           // sh 'cd devops-demo && docker build -t $REGISTRY/$DOCKERHUB_USERNAME/$APP_NAME .'
-          sh 'cd devops-demo && docker build -t $DOCKERHUB_USERNAME/$APP_NAME .'
+//           sh 'cd devops-demo && docker build -t $DOCKERHUB_USERNAME/$APP_NAME .'
+             sh 'docker build -t $DOCKERHUB_USERNAME/$APP_NAME .'
 
           // sh 'docker push $REGISTRY/$DOCKERHUB_USERNAME/$APP_NAME'
           sh 'docker push $DOCKERHUB_USERNAME/$APP_NAME'
