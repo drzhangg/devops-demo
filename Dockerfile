@@ -12,6 +12,8 @@ RUN go mod download
 
 COPY . .
 
+RUN echo 'build finish'
+
 # Build
 RUN CGO_ENABLED=0 GOOS=linux  go build -a -o devops-demo main.go
 
