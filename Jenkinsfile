@@ -22,7 +22,7 @@ pipeline {
     KUBECONFIG_CREDENTIAL_ID = 'k8s'
 
     // 您在 KubeSphere 创建的项目名称，不是 DevOps 项目名称
-    PROJECT_NAME = 'test-devops'
+    PROJECT_NAME = 'test-project'
 
   }
 
