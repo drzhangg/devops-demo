@@ -21,6 +21,9 @@ RUN CGO_ENABLED=0 GOOS=linux  go build -a -o devops-demo main.go
 # Refer to https://github.com/GoogleContainerTools/distroless for more details
 FROM alpine:3.9
 WORKDIR /devops
+
+RUN echo "Asia/Shanghai" > /etc/timezone
+
 COPY --from=builder /devops/devops-demo .
 
 ENTRYPOINT ["./devops-demo"]
