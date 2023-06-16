@@ -46,7 +46,7 @@ pipeline {
 
     stage('build & push') {
       steps {
-        container ('go') {
+        container ('maven') {
 
           // sh 'git clone https://github.com/drzhangg/devops-demo.git'
 
