@@ -35,6 +35,12 @@ pipeline {
        }
     }
 
+    stage('alias') {
+      steps{
+        sh 'alias docker=podman'
+      }
+    }
+
     stage('docker login') {
       steps{
         container ('go') {
