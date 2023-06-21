@@ -3,8 +3,8 @@ FROM golang:1.17 as builder
 
 WORKDIR /devops
 
-ENV GO111MODULE=on \
-	GOPROXY=https://goproxy.cn,direct
+#ENV GO111MODULE=on \
+#	GOPROXY=https://goproxy.cn,direct
 
 COPY go.mod go.mod
 
