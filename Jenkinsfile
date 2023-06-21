@@ -29,7 +29,7 @@ pipeline {
 
   stages {
 
-    stage('checkout scm'){
+    stage('拉取分支'){
        steps{
           checkout(scm)
        }
@@ -41,7 +41,7 @@ pipeline {
       }
     }
 
-    stage('docker login') {
+    stage('登录仓库') {
       steps{
         container ('go') {
           // sh 'echo $DOCKERHUB_CREDENTIAL_PSW | docker login -u $DOCKERHUB_CREDENTIAL_USR --password-stdin'
@@ -50,7 +50,7 @@ pipeline {
       }
     }
 
-    stage('build & push') {
+    stage('构建&推送镜像') {
       steps {
         container ('maven') {
 
@@ -67,7 +67,7 @@ pipeline {
       }
     }
 
-    stage ('deploy app') {
+    stage ('部署应用') {
       steps {
          container ('go') {
             withCredentials([
