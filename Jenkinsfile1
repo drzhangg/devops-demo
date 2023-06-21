@@ -1,0 +1,44 @@
+pipeline {
+
+  agent any
+
+  stages {
+    stage('拉取分支'){
+       steps{
+          sh 'echo "拉取分支"'
+       }
+    }
+
+    stage('登录仓库') {
+      steps{
+        sh 'echo "登录仓库"'
+      }
+    }
+
+    stage('构建&推送镜像') {
+      steps {
+        container ('go') {
+          sh 'echo "构建&推送镜像"'
+        }
+      }
+    }
+
+    stage ('部署应用') {
+      steps {
+         container ('go') {
+            withCredentials([
+              kubeconfigFile(
+
+                credentialsId: env.KUBECONFIG_CREDENTIAL_ID,
+
+                variable: 'KUBECONFIG')
+
+              ]) {
+
+              sh 'envsubst < deploy/deploy.yaml | kubectl apply -f -'
+            }
+         }
+      }
+    }
+  }
+}
