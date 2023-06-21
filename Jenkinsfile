@@ -52,7 +52,7 @@ pipeline {
 
     stage('构建&推送镜像') {
       steps {
-        container ('maven') {
+        container ('go') {
 
           // sh 'git clone https://github.com/drzhangg/devops-demo.git'
 
