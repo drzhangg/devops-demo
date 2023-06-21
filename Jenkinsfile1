@@ -28,17 +28,7 @@ pipeline {
     stage ('部署应用') {
       steps {
          container ('go') {
-            withCredentials([
-              kubeconfigFile(
-
-                credentialsId: env.KUBECONFIG_CREDENTIAL_ID,
-
-                variable: 'KUBECONFIG')
-
-              ]) {
-
-              sh 'envsubst < deploy/deploy.yaml | kubectl apply -f -'
-            }
+            sh 'echo "部署应用"'
          }
       }
     }
