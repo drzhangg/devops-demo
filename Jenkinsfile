@@ -35,11 +35,11 @@ pipeline {
        }
     }
 
-    stage('alias') {
-      steps{
-        sh 'alias docker=podman'
-      }
-    }
+    //stage('alias') {
+      //steps{
+        //sh 'alias docker=podman'
+      //}
+    //}
 
     stage('登录仓库') {
       steps{
