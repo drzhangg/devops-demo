@@ -19,7 +19,7 @@ pipeline {
     DOCKERHUB_CREDENTIAL = credentials('dockerhub')
 
     // 您在 KubeSphere 创建的 kubeconfig 凭证 ID
-    KUBECONFIG_CREDENTIAL_ID = 'k8s'
+    KUBECONFIG_CREDENTIAL_ID = 'kubeconfig'
 
     // 您在 KubeSphere 创建的项目名称，不是 DevOps 项目名称
     PROJECT_NAME = 'test-project'
