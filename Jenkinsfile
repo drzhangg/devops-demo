@@ -40,23 +40,23 @@ pipeline {
     stage('docker login') {
       steps{
         container ('go') {
-           sh 'echo $DOCKERHUB_CREDENTIAL_PSW | docker login -u DOCKERHUB_USERNAME --password-stdin'
-          //sh 'echo $DOCKERHUB_CREDENTIAL_PSW | docker login -u $DOCKERHUB_CREDENTIAL_USR --password-stdin'
+           sh 'echo $DOCKERHUB_CREDENTIAL_PSW | docker login -u $DOCKERHUB_CREDENTIAL_USR --password-stdin'
+          //sh 'echo $DOCKERHUB_CREDENTIAL_PSW | podman login -u $DOCKERHUB_CREDENTIAL_USR --password-stdin'
         }
       }
     }
 
     stage('build & push') {
       steps {
-        container ('maven') {
+        container ('go') {
 
           // sh 'cd devops-demo && docker build -t $REGISTRY/$DOCKERHUB_USERNAME/$APP_NAME .'
           // sh 'cd devops-demo && docker build -t $DOCKERHUB_USERNAME/$APP_NAME .'
 
           echo "$DOCKERHUB_USERNAME/$APP_NAME"
-          sh "docker build -t $DOCKERHUB_USERNAME/$APP_NAME:latest ."
+          sh 'docker build -t $DOCKERHUB_USERNAME/$APP_NAME:latest .'
 
-          sh "docker push $DOCKERHUB_USERNAME/$APP_NAME:latest"
+          sh 'docker push $DOCKERHUB_USERNAME/$APP_NAME:latest'
 
         }
       }
