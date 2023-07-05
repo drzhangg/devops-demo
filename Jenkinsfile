@@ -47,6 +47,10 @@ pipeline {
     }
 
     stage('build & push') {
+      when {
+        branch 'master'
+      }
+
       steps {
         container ('go') {
 
