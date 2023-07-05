@@ -54,9 +54,9 @@ pipeline {
           // sh 'cd devops-demo && docker build -t $DOCKERHUB_USERNAME/$APP_NAME .'
 
           echo "$DOCKERHUB_USERNAME/$APP_NAME"
-          sh 'docker build -t $DOCKERHUB_USERNAME/$APP_NAME .'
+          sh 'docker build -t $DOCKERHUB_USERNAME/$APP_NAME:latest .'
 
-          sh 'docker push $DOCKERHUB_USERNAME/$APP_NAME'
+          sh 'docker push $DOCKERHUB_USERNAME/$APP_NAME:latest'
 
         }
       }
