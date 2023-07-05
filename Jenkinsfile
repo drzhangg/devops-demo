@@ -18,7 +18,7 @@ pipeline {
     // 'dockerhubid' 是您在 KubeSphere 用 Docker Hub 访问令牌创建的凭证 ID
     DOCKERHUB_CREDENTIAL = credentials('dockerhub')
 
-    $DOCKERHUB_USERNAME =
+
 
     // 您在 KubeSphere 创建的 kubeconfig 凭证 ID
     KUBECONFIG_CREDENTIAL_ID = 'kubeconfig'
